@@ -1,0 +1,654 @@
+/* ============================================================================
+   Design tokens
+   Palette: warm charcoal (not cold SaaS gray), brass/amber accent (evokes a
+   barbershop's clippers-and-leather materiality, not a generic tech brand).
+   Type: Fraunces (display, a warm humanist serif with real character) +
+   Inter (body/UI) + IBM Plex Mono (data — prices, ticket IDs, timestamps).
+   Signature: the ticket stub — a perforated-edge card used everywhere a
+   ticket/booking is represented, since the whole product is built around
+   tickets moving through states.
+   ============================================================================ */
+
+:root {
+  --charcoal-950: #17140f;
+  --charcoal-900: #211c15;
+  --charcoal-800: #2c2620;
+  --charcoal-700: #3d352b;
+  --parchment-100: #f4ede0;
+  --parchment-200: #e9dfcc;
+  --brass-400: #c9973e;
+  --brass-500: #b8842e;
+  --brass-300: #ddb668;
+  --ember-500: #b5462f;
+  --moss-500: #5c7a4f;
+
+  --font-display: "Fraunces", Georgia, serif;
+  --font-body: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+
+  --radius-card: 14px;
+  --shadow-card: 0 8px 24px rgba(23, 20, 15, 0.28);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--charcoal-950);
+  background-image: radial-gradient(circle at 15% 0%, rgba(201, 151, 62, 0.08), transparent 45%);
+  color: var(--parchment-100);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+a {
+  color: var(--brass-300);
+}
+
+button {
+  font-family: var(--font-body);
+  cursor: pointer;
+}
+
+/* Visible keyboard focus everywhere — accessibility floor */
+:focus-visible {
+  outline: 2px solid var(--brass-400);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ---------------------------------------------------------------------- */
+/* Layout                                                                  */
+/* ---------------------------------------------------------------------- */
+
+.app-shell {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 28px;
+  border-bottom: 1px solid var(--charcoal-800);
+}
+
+.brand {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  color: var(--parchment-100);
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.brand-mark {
+  color: var(--brass-400);
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 0.9rem;
+  color: var(--parchment-200);
+}
+
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+  width: 100%;
+}
+
+.container-wide {
+  max-width: 1140px;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Auth screens                                                            */
+/* ---------------------------------------------------------------------- */
+
+.auth-wrap {
+  max-width: 400px;
+  margin: 64px auto;
+  padding: 0 20px;
+}
+
+.auth-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brass-400);
+  margin-bottom: 10px;
+}
+
+.auth-title {
+  font-size: 2rem;
+  margin-bottom: 8px;
+}
+
+.auth-sub {
+  color: var(--parchment-200);
+  opacity: 0.75;
+  margin-bottom: 32px;
+  font-size: 0.95rem;
+}
+
+.field {
+  margin-bottom: 16px;
+}
+
+.field label {
+  display: block;
+  font-size: 0.82rem;
+  color: var(--parchment-200);
+  opacity: 0.85;
+  margin-bottom: 6px;
+}
+
+.field input,
+.field textarea,
+.field select {
+  width: 100%;
+  padding: 11px 13px;
+  border-radius: 8px;
+  border: 1px solid var(--charcoal-700);
+  background: var(--charcoal-900);
+  color: var(--parchment-100);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+}
+
+.field textarea {
+  resize: vertical;
+  min-height: 72px;
+}
+
+.field input:focus,
+.field textarea:focus,
+.field select:focus {
+  border-color: var(--brass-400);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 20px;
+  border-radius: 8px;
+  border: none;
+  font-size: 0.92rem;
+  font-weight: 600;
+  transition: transform 0.12s ease, opacity 0.12s ease;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn-primary {
+  background: var(--brass-400);
+  color: var(--charcoal-950);
+}
+
+.btn-primary:hover {
+  background: var(--brass-300);
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--parchment-100);
+  border: 1px solid var(--charcoal-700);
+}
+
+.btn-ghost:hover {
+  border-color: var(--brass-400);
+}
+
+.btn-danger {
+  background: transparent;
+  color: var(--ember-500);
+  border: 1px solid rgba(181, 70, 47, 0.4);
+}
+
+.btn-danger:hover {
+  background: rgba(181, 70, 47, 0.1);
+}
+
+.btn-block {
+  width: 100%;
+}
+
+.error-text {
+  color: var(--ember-500);
+  font-size: 0.85rem;
+  margin-top: 10px;
+}
+
+.success-text {
+  color: var(--moss-500);
+  font-size: 0.85rem;
+  margin-top: 10px;
+}
+
+.auth-switch {
+  margin-top: 22px;
+  font-size: 0.88rem;
+  color: var(--parchment-200);
+  opacity: 0.8;
+}
+
+.auth-switch button {
+  background: none;
+  border: none;
+  color: var(--brass-300);
+  font-weight: 600;
+  padding: 0;
+  font-size: inherit;
+}
+
+.referral-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  background: rgba(201, 151, 62, 0.14);
+  color: var(--brass-300);
+  padding: 6px 10px;
+  border-radius: 999px;
+  margin-bottom: 20px;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Dashboard shell                                                         */
+/* ---------------------------------------------------------------------- */
+
+.tabs {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid var(--charcoal-800);
+  margin-bottom: 32px;
+  overflow-x: auto;
+}
+
+.tab {
+  background: none;
+  border: none;
+  color: var(--parchment-200);
+  opacity: 0.65;
+  padding: 12px 4px;
+  margin-right: 26px;
+  font-size: 0.92rem;
+  font-weight: 500;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+}
+
+.tab.active {
+  opacity: 1;
+  color: var(--brass-300);
+  border-bottom-color: var(--brass-400);
+}
+
+.section-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.section-title {
+  font-size: 1.4rem;
+}
+
+.status-pill {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 4px 10px;
+  border-radius: 999px;
+  display: inline-block;
+}
+
+.status-pending { background: rgba(201, 151, 62, 0.18); color: var(--brass-300); }
+.status-active { background: rgba(92, 122, 79, 0.2); color: var(--moss-500); }
+.status-suspended { background: rgba(181, 70, 47, 0.18); color: var(--ember-500); }
+
+/* ---------------------------------------------------------------------- */
+/* Ticket stub — the signature element                                     */
+/* Rendered as a torn/perforated card: a solid left stub (status + short
+   id) joined to the main body by a dashed seam and a notch cut on each
+   long edge, echoing a physical paper ticket. */
+/* ---------------------------------------------------------------------- */
+
+.ticket-stub {
+  display: flex;
+  background: var(--charcoal-900);
+  border: 1px solid var(--charcoal-700);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  margin-bottom: 14px;
+  position: relative;
+}
+
+.ticket-stub-side {
+  width: 92px;
+  flex-shrink: 0;
+  background: var(--charcoal-800);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 14px 8px;
+  position: relative;
+  border-right: 1px dashed var(--charcoal-700);
+}
+
+.ticket-stub-side::before,
+.ticket-stub-side::after {
+  content: "";
+  position: absolute;
+  right: -9px;
+  width: 18px;
+  height: 18px;
+  background: var(--charcoal-950);
+  border-radius: 50%;
+}
+
+.ticket-stub-side::before { top: -9px; }
+.ticket-stub-side::after { bottom: -9px; }
+
+.ticket-stub-id {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--parchment-200);
+  opacity: 0.7;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+
+.ticket-stub-body {
+  flex: 1;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.ticket-info h4 {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.ticket-meta {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--parchment-200);
+  opacity: 0.65;
+}
+
+.ticket-amount {
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+  color: var(--brass-300);
+  font-weight: 500;
+}
+
+.ticket-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.ticket-actions .btn {
+  padding: 8px 14px;
+  font-size: 0.85rem;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Service / photo cards                                                   */
+/* ---------------------------------------------------------------------- */
+
+.card {
+  background: var(--charcoal-900);
+  border: 1px solid var(--charcoal-700);
+  border-radius: var(--radius-card);
+  padding: 20px;
+  margin-bottom: 14px;
+}
+
+.card-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.card-title {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 4px;
+}
+
+.card-sub {
+  font-size: 0.85rem;
+  color: var(--parchment-200);
+  opacity: 0.7;
+}
+
+.price-tag {
+  font-family: var(--font-mono);
+  color: var(--brass-300);
+  font-size: 1.05rem;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--parchment-200);
+  opacity: 0.6;
+}
+
+.empty-state h3 {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  margin-bottom: 6px;
+  opacity: 1;
+  color: var(--parchment-100);
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+@media (max-width: 640px) {
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
+  .ticket-stub {
+    flex-direction: column;
+  }
+  .ticket-stub-side {
+    width: 100%;
+    flex-direction: row;
+    border-right: none;
+    border-bottom: 1px dashed var(--charcoal-700);
+  }
+  .ticket-stub-side::before,
+  .ticket-stub-side::after {
+    top: auto;
+    bottom: -9px;
+  }
+  .ticket-stub-side::before { left: -9px; right: auto; }
+  .ticket-stub-side::after { right: -9px; }
+  .ticket-stub-id {
+    writing-mode: horizontal-tb;
+  }
+}
+
+/* ---------------------------------------------------------------------- */
+/* Customer app additions — search hero, shop grid, featured banner       */
+/* ---------------------------------------------------------------------- */
+
+.hero {
+  padding: 48px 0 36px;
+  text-align: center;
+}
+
+.hero-title {
+  font-size: 2.4rem;
+  margin-bottom: 10px;
+}
+
+.hero-sub {
+  color: var(--parchment-200);
+  opacity: 0.75;
+  margin-bottom: 28px;
+  font-size: 1rem;
+}
+
+.search-bar {
+  display: flex;
+  gap: 10px;
+  max-width: 560px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+}
+
+.search-bar input {
+  flex: 1;
+  min-width: 160px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--charcoal-700);
+  background: var(--charcoal-900);
+  color: var(--parchment-100);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+}
+
+.search-bar input:focus {
+  border-color: var(--brass-400);
+}
+
+.featured-banner {
+  display: block;
+  background: linear-gradient(135deg, rgba(201, 151, 62, 0.16), rgba(201, 151, 62, 0.04));
+  border: 1px solid var(--brass-400);
+  border-radius: var(--radius-card);
+  padding: 22px 24px;
+  margin-bottom: 32px;
+  text-decoration: none;
+  color: var(--parchment-100);
+}
+
+.featured-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--brass-400);
+}
+
+.featured-banner h3 {
+  font-size: 1.3rem;
+  margin: 6px 0 4px;
+}
+
+.shop-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.shop-card {
+  display: block;
+  background: var(--charcoal-900);
+  border: 1px solid var(--charcoal-700);
+  border-radius: var(--radius-card);
+  padding: 20px;
+  text-decoration: none;
+  color: var(--parchment-100);
+  transition: border-color 0.15s ease;
+}
+
+.shop-card:hover {
+  border-color: var(--brass-400);
+}
+
+.shop-card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 6px;
+}
+
+.rating-line {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--brass-300);
+  margin: 4px 0;
+}
+
+.shop-page-title {
+  font-size: 2rem;
+  margin-bottom: 6px;
+}
+
+.photo-strip {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  margin-bottom: 28px;
+  padding-bottom: 4px;
+}
+
+.photo-strip img {
+  height: 180px;
+  width: 260px;
+  flex-shrink: 0;
+  object-fit: cover;
+  border-radius: var(--radius-card);
+  border: 1px solid var(--charcoal-700);
+}
